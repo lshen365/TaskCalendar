@@ -3,13 +3,14 @@
 
 #include <iostream>
 
-Class Month{
+class Month{
 public:
   Month();
   int getMonth();
+  void printMonth();
 
 private:
-  int month;
+  int currentMonth;
 
 };
 #endif

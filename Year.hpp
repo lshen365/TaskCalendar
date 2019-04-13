@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-Class Year{
+class Year{
   public:
     Year(int num);
     int getYear();

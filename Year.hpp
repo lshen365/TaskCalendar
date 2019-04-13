@@ -6,7 +6,7 @@ using namespace std;
 class Year{
   public:
 
-    Year(int);
+    Year();
     int getCurrentYear();
     void addYear(int num);
     bool doesYearExist(int num);

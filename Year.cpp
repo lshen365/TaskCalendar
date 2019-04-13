@@ -3,10 +3,9 @@
 #include <vector>
 using namespace std;
 
-
-Year::Year(int year){
-  addYear(year);
-  currentYear=year;
+Year::Year(){
+  addYear(2019);
+  currentYear=2019;
 }
 
 void Year::addYear(int num){
@@ -27,4 +26,8 @@ bool Year::doesYearExist(int num){
       return true;
   }
   return false;
+}
+
+int Year::getCurrentYear(){
+  return currentYear;
 }

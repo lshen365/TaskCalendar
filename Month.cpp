@@ -3,6 +3,11 @@
 
 using namespace std;
 
+/*
+Initializes the array so that each element represents a number of month;
+Ex: i=1 is January
+    i=2 is February
+*/
 Month::Month(){
   for(int i=0;i<12;i++){
     months[i]=i;
@@ -13,41 +18,41 @@ Month::Month(){
 Returns the names of the months correlating to each index of the array
 */
 string Month::getMonthName(int i){
-  switch(i+1){
-    case 1:
+  switch(i){
+    case 0:
       return "January";
 
-    case 2:
+    case 1:
       return "February";
 
-    case 3:
+    case 2:
       return "March";
 
-    case 4:
+    case 3:
       return "April";
 
-    case 5:
+    case 4:
       return "May";
 
-    case 6:
+    case 5:
       return "June";
 
-    case 7:
+    case 6:
       return "July";
 
-    case 8:
+    case 7:
       return "August";
 
-    case 9:
+    case 8:
       return "September";
 
-    case 10:
+    case 9:
       return "October";
 
-    case 11:
+    case 10:
       return "November";
 
-    case 12:
+    case 11:
       return "December";
 
     default:

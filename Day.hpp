@@ -8,6 +8,7 @@ public:
   Day();
   int getDay();
   int numberOfDays (int month, int year);
+  int dayNumber(int,int,int);
 
 private:
   int day;

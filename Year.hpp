@@ -1,17 +1,19 @@
 #ifndef YEAR_HPP
 #define YEAR_HPP
-
+#include <vector>
 #include <iostream>
-
-Class Year{
+using namespace std;
+class Year{
   public:
-    Year(int num);
-    int getYear();
+
+    Year(int);
+    int getCurrentYear();
     void addYear(int num);
     bool doesYearExist(int num);
 
   private:
-    int year;
+    int currentYear;
+    vector<int>years;
 
 };
 #endif

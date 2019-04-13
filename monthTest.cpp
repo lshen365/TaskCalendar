@@ -7,5 +7,5 @@ using namespace std;
 int main()
 {
     Month m;
-    m.printMonth();
+    cout<<m.getMonthName(3);
 }

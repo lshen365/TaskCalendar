@@ -1,5 +1,6 @@
 #include <iostream>
 #include "YEAR.HPP"
+#include <vector>
 using namespace std;
 
 

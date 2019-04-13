@@ -15,6 +15,9 @@ void displayMenu(){
 int main(int argc, char const *argv[]) {
   Calendar calendar;
   string input="";
+  cout<<"What is the current month?\n";
+
+
   while(input!="4"){
     displayMenu();
     if(input=="1"){//View Calendar

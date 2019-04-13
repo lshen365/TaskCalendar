@@ -6,7 +6,7 @@
 #include <iostream>
 using namespace std;
 
-Class Calendar{
+class Calendar{
 public:
   Calendar();
   void printMonth(int month);

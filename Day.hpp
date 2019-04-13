@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-Class Day{
+class Day{
 public:
   Day();
   int getDay();

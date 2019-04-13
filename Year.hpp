@@ -2,7 +2,6 @@
 #define YEAR_HPP
 #include <vector>
 #include <iostream>
-using namespace std;
 class Year{
   public:
 

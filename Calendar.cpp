@@ -8,10 +8,44 @@ Include saving tasks to .txt file for later reference
 
 using namespace std;
 
-Calendar::Calendar(){
-
-
+/*
+Creates a priorityQueue and sets it to the determined size
+*/
+Calendar::Calendar(int size, int currMonth){
+  priorityQueue = new pQueue[size];
+  currentQueueSize = 0;
+  maxQueueSize = size;
+  months.setCurrentMonth(currMonth);
 }
+
+
+
+/*
+This will calculate all the final priority value based off all the information given
+and will return the float priority value. This will be calculated by adding up the
+days left until the due date + userPriority + time timeDuration
+*/
+float Calendar::priorityCalculator(int dueMonth, int dueDay, float timeDuration, int userPriority){
+  float total;
+  if(months.getMonth()==3){
+    cout<<priorityQueue[0].eventName<<" "<<priorityQueue[0].dueMonth;
+  }
+}
+/*
+Adds the events that are important into the array
+*/
+void Calendar::enqueue(string event,int dueMonth, int dueDay, float timeDuration,int priority){
+  int index = currentQueueSize;
+  currentQueueSize++;
+
+  priorityQueue[index].eventName = event;
+  priorityQueue[index].dueMonth = dueMonth;
+  priorityQueue[index].dueDay = dueDay;
+  priorityQueue[index].timeDuration = timeDuration;
+  priorityQueue[index].userPriority = priority;
+  priorityQueue[index].finalPriority = priorityCalculator(dueMonth,dueDay,timeDuration,priority);
+}
+
 void Calendar::printMonth(int month){
   printf ("         Calendar - %d\n\n", years.getCurrentYear());
    int days;
@@ -52,4 +86,8 @@ void Calendar::printMonth(int month){
        current = k;
    }
    return;
+}
+
+pQueue Calendar::peek(){
+  return priorityQueue[0];
 }

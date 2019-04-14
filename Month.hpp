@@ -9,6 +9,7 @@ public:
   int getMonth();
   void printMonth();
   string getMonthName(int);
+  void setCurrentMonth(int);
 
 private:
   int currentMonth;

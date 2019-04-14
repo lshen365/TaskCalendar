@@ -14,6 +14,14 @@ Month::Month(){
   }
 }
 
+void Month::setCurrentMonth(int m){
+  currentMonth = m;
+}
+
+int Month::getMonth(){
+  return currentMonth;
+}
+
 /*
 Returns the names of the months correlating to each index of the array
 */

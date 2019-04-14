@@ -6,15 +6,51 @@
 #include <iostream>
 using namespace std;
 
+struct pQueue
+{
+  string eventName;
+  int dueMonth;
+  int dueDay;
+  float timeDuration; //Estimated Average of how long the task will take
+  int userPriority; //User determined priority
+  float finalPriority; //Algorithm calculated priority that will be used when inserting
+};
+
 class Calendar{
 public:
-  Calendar();
+  Calendar(int,int);
+
+
+  //Will add it to the queue based off of the priorities
+  void enqueue(string,int,int,float,int);
+
+  //Allocates room at the beginning of the queue
+  void dequeue();
+
   void printMonth(int month);
+
+  //Fix the heap when we add something in
+  void repairUpward();
+
+  //Fix the heap when we dequeue something
+  void repairDownward();
+
+  //Returns the first node in the queue
+  pQueue peek();
+
+  //Prints a weekly basis of the important stuff
   void printWeek();
+
+  float priorityCalculator(int,int,float,int);
 private:
   Year years;
   Month months;
   Day days;
+
+  float finalPriority;
+  pQueue* priorityQueue;
+  int currentQueueSize;
+  int maxQueueSize;
 
 
 };

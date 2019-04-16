@@ -55,7 +55,7 @@ void Calendar::enqueue(string event,int dueMonth, int dueDay, float timeDuration
   priorityQueue[index].finalPriority = priorityCalculator(dueMonth,dueDay,timeDuration,priority);
 }
 
-void Calendar::printMonth(int month){
+void Calendar::printYear(){
   printf ("         Calendar - %d\n\n", years.getCurrentYear());
    int days;
 
@@ -97,6 +97,43 @@ void Calendar::printMonth(int month){
    return;
 }
 
+void Calendar::printMonth(int i){ //is is month to print out(0 is jan 1 is feb etc)
+   printf ("         Calendar - %d\n\n", years.getCurrentYear());
+   int days;
+
+   // Index of the day from 0 to 6
+   int current = this->days.dayNumber (1, 1, years.getCurrentYear());
+   days = this->days.numberOfDays (i, years.getCurrentYear());
+
+   // Print the month name
+   printf("\n  ------------%s-------------\n",
+          months.getMonthName(i).c_str());
+
+   // Print the columns
+   printf("  Sun  Mon  Tue  Wed  Thu  Fri  Sat\n");
+
+   // Print appropriate spaces
+   int k;
+   for (k = 0; k < current; k++)
+       printf("     ");
+   for (int j = 1; j <= days; j++)
+   {
+       printf("%5d", j);
+
+       if (++k > 6)
+       {
+           k = 0;
+           printf("\n");
+       }
+   }
+   if (k)
+       printf("\n");
+   current = k;
+   return;
+}
 pQueue Calendar::peek(){
   return priorityQueue[0];
+}
+Month Calendar::getMonth(){
+  return months;
 }

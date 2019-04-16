@@ -17,40 +17,41 @@ struct pQueue
 };
 
 class Calendar{
-public:
-  Calendar(int,int);
+  public:
+    Calendar(int,int);
 
+    Month getMonth();
+    //Will add it to the queue based off of the priorities
+    void enqueue(string,int,int,float,int);
 
-  //Will add it to the queue based off of the priorities
-  void enqueue(string,int,int,float,int);
+    //Allocates room at the beginning of the queue
+    void dequeue();
 
-  //Allocates room at the beginning of the queue
-  void dequeue();
+    void printYear(); //Print out the current year
+    void printMonth(int month);
 
-  void printMonth(int month);
+    //Fix the heap when we add something in
+    void repairUpward();
 
-  //Fix the heap when we add something in
-  void repairUpward();
+    //Fix the heap when we dequeue something
+    void repairDownward();
 
-  //Fix the heap when we dequeue something
-  void repairDownward();
+    //Returns the first node in the queue
+    pQueue peek();
 
-  //Returns the first node in the queue
-  pQueue peek();
+    //Prints a weekly basis of the important stuff
+    void printWeek();
 
-  //Prints a weekly basis of the important stuff
-  void printWeek();
+    float priorityCalculator(int,int,float,int);
+  private:
+    Year years;
+    Month months;
+    Day days;
 
-  float priorityCalculator(int,int,float,int);
-private:
-  Year years;
-  Month months;
-  Day days;
-
-  float finalPriority;
-  pQueue* priorityQueue;
-  int currentQueueSize;
-  int maxQueueSize;
+    float finalPriority;
+    pQueue* priorityQueue;
+    int currentQueueSize;
+    int maxQueueSize;
 
 
 };

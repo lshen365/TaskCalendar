@@ -18,7 +18,7 @@ void Month::setCurrentMonth(int m){
   currentMonth = m;
 }
 
-int Month::getMonth(){
+int Month::getCurrentMonth(){
   return currentMonth;
 }
 

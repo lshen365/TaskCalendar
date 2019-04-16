@@ -6,7 +6,7 @@ using namespace std;
 class Month{
 public:
   Month();
-  int getMonth();
+  int getCurrentMonth();
   void printMonth();
   string getMonthName(int);
   void setCurrentMonth(int);

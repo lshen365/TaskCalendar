@@ -26,10 +26,19 @@ and will return the float priority value. This will be calculated by adding up t
 days left until the due date + userPriority + time timeDuration
 */
 float Calendar::priorityCalculator(int dueMonth, int dueDay, float timeDuration, int userPriority){
-  float total;
-  if(months.getMonth()==3){
-    cout<<priorityQueue[0].eventName<<" "<<priorityQueue[0].dueMonth;
-  }
+  // float total;
+  // float daysTillDue=0.0;
+  // if(months.getCurrentMonth()!=dueMonth){
+  //
+  //   //Checks case if it is due in like July but current month is April
+  //   if(months.getCurrentMonth()<dueMonth){
+  //     for(int i=months.getCurrentMonth();i<dueMonth;i++){
+  //       daysTillDue+=days.numberOfDays(months.getCurrentMonth(),months.getCurrentYear());
+  //     }
+  //   }else if(months.getCurrentMonth()>dueMonth){
+  //
+  //   }
+  // }
 }
 /*
 Adds the events that are important into the array

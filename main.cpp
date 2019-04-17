@@ -30,17 +30,17 @@ int main(int argc, char const *argv[]) {
     }
   }
   calendar.printMonth(stoi(input));
-
-  while(input!="4"){
+  string menu;
+  while(menu!="4"){
     displayMenu();
-    getline(cin, input);
+    getline(cin, menu);
     if(input=="1"){//View Calendar
       calendar.printYear();
-    }else if(input=="2"){//Add Event
+    }else if(menu=="2"){//Add Event
 
-    }else if(input=="3"){//Remove Event
+    }else if(menu=="3"){//Remove Event
 
-    }else if(input=="4"){//Exit
+    }else if(menu=="4"){//Exit
       cout<<"Thank you for using our scheduler. Goodbye!\n";
     }else{
       cout<<"Invalid input. Please try again\n";

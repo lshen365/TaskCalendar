@@ -19,10 +19,10 @@ int Day::dayNumber(int day, int month, int year)
 
 int Day::numberOfDays (int month, int year){
   // January
-    if (month == 0)
+    if (month == 1)
         return (31);
     // February
-    if (month == 1)
+    if (month == 2)
     {
         // If the year is leap then February has 29 days
         if (year%400==0||(year%4==0&&year%100!=0))
@@ -31,33 +31,41 @@ int Day::numberOfDays (int month, int year){
             return (28);
     }
     // March
-    if (month == 2)
+    if (month == 3)
         return (31);
     // April
-    if (month == 3)
+    if (month == 4)
         return (30);
     // May
-    if (month == 4)
+    if (month == 5)
         return (31);
     // June
-    if (month == 5)
+    if (month == 6)
         return (30);
     // July
-    if (month == 6)
-        return (31);
-    // August
     if (month == 7)
         return (31);
-    // September
+    // August
     if (month == 8)
+        return (31);
+    // September
+    if (month == 9)
         return (30);
     // October
-    if (month == 9)
+    if (month == 10)
         return (31);
     // November
-    if (month == 10)
+    if (month == 11)
         return (30);
     // December
-    if (month == 11)
+    if (month == 12)
         return (31);
+}
+
+int Day::getCurrentDay(){
+  return day;
+}
+
+void Day::setCurrentDay(int num){
+  day = num;
 }

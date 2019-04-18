@@ -18,7 +18,10 @@ struct pQueue
 
 class Calendar{
   public:
-    Calendar(int,int,int);
+    Calendar(int,int);
+    Calendar(int size, int currMonth,int currDay);
+
+    int daysTillDueDate(int dueMonth, int dueDay);
 
     Month getMonth();
     //Will add it to the queue based off of the priorities
@@ -28,7 +31,7 @@ class Calendar{
     void dequeue();
 
     void printYear(); //Print out the current year
-    void printMonth(int month);
+    void printMonth(int month); //Print out a specific month
 
     //Fix the heap when we add something in
     void repairUpward();
@@ -43,9 +46,6 @@ class Calendar{
     void printWeek();
 
     float priorityCalculator(int,int,float,int);
-
-    //Calculates the amount of days left before something is due
-    int daysTillDueDate(int,int);
   private:
     Year years;
     Month months;

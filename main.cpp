@@ -10,18 +10,18 @@ void displayMenu(){
   cout<<"(3) Remove Event"<<endl;
   cout<<"(4) Exit"<<endl;
 }
-bool isdigit(string s){
-  if(s=="0"||s=="1"||s=="2"||s=="3"||s=="4"||s=="5"||s=="6"||s=="7"||s=="8"||s=="9"||s=="10"||s=="11")
+bool isdigit(string s){ //Valid month checker
+  if(s=="12"||s=="1"||s=="2"||s=="3"||s=="4"||s=="5"||s=="6"||s=="7"||s=="8"||s=="9"||s=="10"||s=="11")
     return true;
   return false;
 }
 
 
 int main(int argc, char const *argv[]) {
-  Calendar calendar(50,3);
+  Calendar calendar(50,4,17);
   string input="0";
   while(1){
-    cout<<"What is the current month? (0 for Jan, 1 for Feb, etc...)\n";
+    cout<<"What is the current month? (1 for Jan, 2 for Feb, etc...)\n";
     getline(cin,input);
     if(isdigit(input)){
       break;
@@ -34,7 +34,7 @@ int main(int argc, char const *argv[]) {
   while(menu!="4"){
     displayMenu();
     getline(cin, menu);
-    if(input=="1"){//View Calendar
+    if(menu=="1"){//View Calendar
       calendar.printYear();
     }else if(menu=="2"){//Add Event
 

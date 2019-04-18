@@ -61,11 +61,9 @@ int Day::numberOfDays (int month, int year){
     if (month == 12)
         return (31);
 }
-
 int Day::getCurrentDay(){
   return day;
 }
-
-void Day::setCurrentDay(int num){
-  day = num;
+void Day::setCurrentDay(int d){
+  day=d;
 }

@@ -9,6 +9,7 @@ Day::Day(){
 
 //Function returns the index of the day of the day from day/month/year format
 //Index 0= sunday 1= monday etc.
+
 int Day::dayNumber(int day, int month, int year)
 {
 

@@ -1,5 +1,6 @@
 #include "Calendar.hpp"
 #include <iostream>
+#include <fstream>
 
 /**
 Include saving tasks to .txt file for later reference
@@ -77,8 +78,12 @@ void Calendar::enqueue(string event,int dueMonth, int dueDay, float timeDuration
   priorityQueue[index].timeDuration = timeDuration;
   priorityQueue[index].userPriority = priority;
   priorityQueue[index].finalPriority = priorityCalculator(dueMonth,dueDay,timeDuration,priority);
-  cout<<priorityQueue[index].finalPriority;
+  // cout<<priorityQueue[index].finalPriority;
   //add to text file
+  ofstream outfile;
+  outfile.open("test.txt", ios_base::app); //Appends to the end of file
+  outfile << event << "," << dueMonth << "," << dueDay << "," << timeDuration << "," <<priority << "," <<priorityQueue[index].finalPriority<<endl;
+  outfile.close();
 }
 
 void Calendar::printMonth(int month){
@@ -86,7 +91,7 @@ void Calendar::printMonth(int month){
    int days;
 
    // Index of the day from 0 to 6
-   int current = this->days.dayNumber (1, 1, years.getCurrentYear());
+   int current = this->days.dayNumber (0, 0, years.getCurrentYear());
 
    days = this->days.numberOfDays (month, years.getCurrentYear());
 
@@ -125,15 +130,13 @@ void Calendar::printYear(){
    int current = this->days.dayNumber (1, 1, years.getCurrentYear());
 
    // i --> Iterate through all the months
-   // j --> Iterate through all the days of the
-   //       month - i
+   // j --> Iterate through all the days of the month - i
    for (int i = 1; i <= 12; i++)
    {
        days = this->days.numberOfDays (i, years.getCurrentYear());
 
        // Print the current month name
-       printf("\n  ------------%s-------------\n",
-              months.getMonthName(i).c_str());
+      printf("\n  ------------%s-------------\n", months.getMonthName(i).c_str());
 
        // Print the columns
        printf("  Sun  Mon  Tue  Wed  Thu  Fri  Sat\n");
@@ -158,7 +161,38 @@ void Calendar::printYear(){
    }
    return;
 }
-
+//Compares two dates to see which one comes before
+//True if date1 comes before date2 and false otherwise
+bool compareDate(int year1, int year2, int month1, int month2, int day1, int day2) {
+    if (year1 < year2)
+        return true;
+    if (year1 == year2 && month1 < month2)
+        return true;
+    if (year1 == year2 && month1 == month2 && day1 < day2)
+        return true;
+    return false;
+}
+void Calendar::printWeek(int month, int day){
+  int current = this->days.dayNumber (1, 1, years.getCurrentYear());
+  int days = this->days.numberOfDays (month, years.getCurrentYear());
+  // printf("\n  ------------%s-------------\n", months.getMonthName(i).c_str());
+  cout<<"            Week of "<<month<<"/"<<day<<"/"<<years.getCurrentYear()<<endl;
+  printf("    Sun     Mon    Tue    Wed    Thu    Fri    Sat\n");
+  
+  for(int i=0;i<currentQueueSize;i++){
+    if(compareDate(years.getCurrentYear(),years.getCurrentYear(),month,priorityQueue[i].dueMonth,day,priorityQueue[i].dueDay))
+    {
+      string event=priorityQueue[i].eventName;
+      printf("%.7s\n", event.c_str()); //First 7 characters of the event string
+    }
+  }
+}
 pQueue Calendar::peek(){
   return priorityQueue[0];
+}
+Day Calendar::getDays(){
+  return days;
+}
+Year Calendar::getYears(){
+  return years;
 }

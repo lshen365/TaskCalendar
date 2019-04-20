@@ -1,7 +1,7 @@
 #include "Calendar.hpp"
 #include <iostream>
 #include <fstream>
-
+#include <sstream>
 /**
 Include saving tasks to .txt file for later reference
 **/
@@ -65,25 +65,50 @@ float Calendar::priorityCalculator(int dueMonth, int dueDay, float timeDuration,
   return total;
 
 }
+
+void swap(pQueue *a, pQueue *b){
+  pQueue temp = *a;
+  *a = *b;
+  *b = temp;
+}
 /*
 Adds the events that are important into the array
 */
-void Calendar::enqueue(string event,int dueMonth, int dueDay, float timeDuration,int priority){
-  int index = currentQueueSize;
-  currentQueueSize++;
+void Calendar::enqueue(){
 
-  priorityQueue[index].eventName = event;
-  priorityQueue[index].dueMonth = dueMonth;
-  priorityQueue[index].dueDay = dueDay;
-  priorityQueue[index].timeDuration = timeDuration;
-  priorityQueue[index].userPriority = priority;
-  priorityQueue[index].finalPriority = priorityCalculator(dueMonth,dueDay,timeDuration,priority);
+
+
+  ifstream myFile;
+  myFile.open("test.txt");
+  if(myFile.is_open()){
+    string text;
+    while(getline(myFile,text)){
+      stringstream words(text);
+      string holdWord;
+      getline(words,holdWord,',');
+      priorityQueue[currentQueueSize].eventName = holdWord;
+      getline(words,holdWord,',');
+      priorityQueue[currentQueueSize].dueMonth = stoi(holdWord);
+      getline(words,holdWord,',');
+      priorityQueue[currentQueueSize].dueDay = stoi(holdWord);
+      getline(words,holdWord,',');
+      priorityQueue[currentQueueSize].timeDuration = stoi(holdWord);
+      getline(words,holdWord,',');
+      priorityQueue[currentQueueSize].userPriority = stoi(holdWord);
+      getline(words,holdWord,',');
+      priorityQueue[currentQueueSize].finalPriority=stof(holdWord);
+      currentQueueSize++;
+      int index = currentQueueSize-1;
+      // while(index!=0&&priorityQueue[index-1/2].finalPriority<= priorityQueue[index].finalPriority){
+      //   swap(&priorityQueue[(index-1/2)],&priorityQueue[index]);
+      // }
+    }
+  }
+
+
   // cout<<priorityQueue[index].finalPriority;
-  //add to text file
-  ofstream outfile;
-  outfile.open("test.txt", ios_base::app); //Appends to the end of file
-  outfile << event << "," << dueMonth << "," << dueDay << "," << timeDuration << "," <<priority << "," <<priorityQueue[index].finalPriority<<endl;
-  outfile.close();
+
+
 }
 
 void Calendar::printMonth(int month){
@@ -178,7 +203,7 @@ void Calendar::printWeek(int month, int day){
   // printf("\n  ------------%s-------------\n", months.getMonthName(i).c_str());
   cout<<"            Week of "<<month<<"/"<<day<<"/"<<years.getCurrentYear()<<endl;
   printf("    Sun     Mon    Tue    Wed    Thu    Fri    Sat\n");
-  
+
   for(int i=0;i<currentQueueSize;i++){
     if(compareDate(years.getCurrentYear(),years.getCurrentYear(),month,priorityQueue[i].dueMonth,day,priorityQueue[i].dueDay))
     {

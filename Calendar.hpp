@@ -25,7 +25,7 @@ class Calendar{
 
     Month getMonth();
     //Will add it to the queue based off of the priorities
-    void enqueue(string,int,int,float,int);
+    void enqueue();
 
     //Allocates room at the beginning of the queue
     void dequeue();

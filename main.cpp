@@ -1,7 +1,7 @@
 #include <iostream>
 #include<string>
 #include "Calendar.hpp"
-
+#include <fstream>
 using namespace std;
 
 void displayMenu(){
@@ -64,6 +64,7 @@ void viewCalendar(Calendar calendar){ //Option to view calendar
 
 void addEvent(Calendar &calendar){
   string event, dueMonth, dueDay, time, priority;
+
   cout<<"What event will be added?\n";
   getline(cin, event);
   cout<<"What month will this be due?\n";
@@ -74,8 +75,14 @@ void addEvent(Calendar &calendar){
   getline(cin, time);
   cout<<"What is your estimated priority for this event?\n";
   getline(cin, priority);
-  calendar.enqueue(event, stoi(dueMonth), stoi(dueDay), stoi(time), stoi(priority));
-  cout<<"Your task "<<event<<" has been successfully enqueued!\n\n";
+//  calendar.enqueue(event, stoi(dueMonth), stoi(dueDay), stoi(time), stoi(priority));
+//  cout<<"Your task "<<event<<" has been successfully enqueued!\n\n";
+  float finalPriorityValue = calendar.priorityCalculator(stoi(dueMonth),stoi(dueDay),stof(time),stoi(priority));
+  //Add to textfile
+  ofstream outfile;
+  outfile.open("test.txt", ios_base::app); //Appends to the end of file
+  outfile << event << "," << dueMonth << "," << dueDay << "," << time << "," <<priority << "," <<finalPriorityValue<<endl;
+  outfile.close();
 }
 int main(int argc, char const *argv[]) {
   Calendar calendar(50,4,17);

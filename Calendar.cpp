@@ -33,7 +33,7 @@ int Calendar::daysTillDueDate(int dueMonth, int dueDay){
         daysTillDue+=days.numberOfDays(months.getCurrentMonth()+i,years.getCurrentYear());
       }
       daysTillDue+=dueDay;
-      cout<<daysTillDue<<"Days till due"<<endl;
+      // cout<<daysTillDue<<"Days till due"<<endl;
     }
     //Checks for if current Month is April and due date is in January
     else if(months.getCurrentMonth()>dueMonth){
@@ -47,7 +47,7 @@ int Calendar::daysTillDueDate(int dueMonth, int dueDay){
       daysTillDue+=dueDay;
     }
   }else{
-    daysTillDue+=days.numberOfDays(months.getCurrentMonth(),years.getCurrentYear())-days.getCurrentDay();
+    daysTillDue+=dueDay-days.getCurrentDay();
   }
 
   return daysTillDue;
@@ -270,36 +270,56 @@ string dayName(int i){
   if(i==6)
     return "Saturday";
 }
-void Calendar::printWeek(int month, int day){
-  int current = this->days.dayNumber (1, 1, years.getCurrentYear());
-  int days = this->days.numberOfDays (month, years.getCurrentYear());
-  // printf("\n  ------------%s-------------\n", months.getMonthName(i).c_str());
-  printf("%35s", "Week of ");
+// void Calendar::printWeek(int month, int day){
+//   int current = this->days.dayNumber (1, 1, years.getCurrentYear());
+//   int days = this->days.numberOfDays (month, years.getCurrentYear());
+//   // printf("\n  ------------%s-------------\n", months.getMonthName(i).c_str());
+//   printf("%35s", "Week of ");
+//   printf("%02d/", month);
+//   printf("%02d/", day);
+//   cout<<years.getCurrentYear()<<endl;
+//   printf("%45s", "The date you entered is a ");
+//   cout<<dayName(days)<<endl;
+//   printf("        Sun          Mon         Tue         Wed         Thu         Fri         Sat\n");
+//   for(int i=0;i<currentQueueSize;i++){
+//     //if the current date is before the due date
+//     // if(compareDate(years.getCurrentYear(),years.getCurrentYear(),month,priorityQueue[i].dueMonth,day,priorityQueue[i].dueDay)){
+//     // if(compareDate(years.getCurrentYear(),years.getCurrentYear(),month,priorityQueue[i].dueMonth,day,priorityQueue[i].dueDay)){
+//       //As long as the final priority is positive
+//       if(priorityQueue[i].finalPriority>0){
+//         string event=priorityQueue[i].eventName;
+//         printf("%-7.7s ", event.c_str()); //First 7 characters of the event string
+//         printf("%.1f hrs",priorityQueue[i].timeDuration/daysTillDueDate(month, day));
+//         // printf("P: %.1f\n",priorityQueue[i].finalPriority);
+//       }
+//     }
+//   }
+// }
+void Calendar::printDay(int month, int day){
+  months.setCurrentMonth(month);
+  days.setCurrentDay(day);
+  cout<<"                 ";
   printf("%02d/", month);
   printf("%02d/", day);
   cout<<years.getCurrentYear()<<endl;
-  printf("%45s", "The date you entered is a ");
   int dayNum=this->days.dayNumber(day, month, years.getCurrentYear());
+  printf("%30s", "The current date is a ");
   cout<<dayName(dayNum)<<endl;
-  printf("        Sun          Mon         Tue         Wed         Thu         Fri         Sat\n");
-  // for( int i = day; i<day+7;i++)
-  //   cout<< month / i
-  // for(int k=0;k<7;k++){
-  //
-  // }
-  //pQueue temp = peek();
-  //for(int i=0;i<temp.timeDuration;i++)
-
   for(int i=0;i<currentQueueSize;i++){
     //if the current date is before the due date
-    if(compareDate(years.getCurrentYear(),years.getCurrentYear(),month,priorityQueue[i].dueMonth,day,priorityQueue[i].dueDay))
-    {
+    if(compareDate(years.getCurrentYear(),years.getCurrentYear(),month,priorityQueue[i].dueMonth,day,priorityQueue[i].dueDay)){
       //As long as the final priority is positive
       if(priorityQueue[i].finalPriority>0){
-        string event=priorityQueue[i].eventName;
-        printf("%-7.7s ", event.c_str()); //First 7 characters of the event string
-        printf("%.1f hrs\n",priorityQueue[i].timeDuration/daysTillDueDate(month, day));
-        // printf("P: %.1f\n",priorityQueue[i].finalPriority);
+        //Spending more than half an hour on the task
+        if(priorityQueue[i].timeDuration/daysTillDueDate(priorityQueue[i].dueMonth, priorityQueue[i].dueDay)>=0.5){
+          string event=priorityQueue[i].eventName;
+          printf("%-20.20s ", event.c_str()); //First 20 characters of the event string
+          // printf("%.1f hrs ",priorityQueue[i].timeDuration/daysTillDueDate(month, day));
+          printf("%.1f hrs ",priorityQueue[i].timeDuration/daysTillDueDate(priorityQueue[i].dueMonth, priorityQueue[i].dueDay));
+          // printf("P: %.1f\n",priorityQueue[i].finalPriority);
+          cout<<daysTillDueDate(priorityQueue[i].dueMonth, priorityQueue[i].dueDay)<<" days till due!"<<endl;
+          // cout<<daysTillDueDate(month, day)<<" days till due!"<<endl;
+        }
       }
     }
   }
@@ -312,6 +332,9 @@ Day Calendar::getDays(){
 }
 Year Calendar::getYears(){
   return years;
+}
+Month Calendar::getMonth(){
+  return months;
 }
 
 bool Calendar::isEmpty(){

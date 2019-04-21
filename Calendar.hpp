@@ -33,6 +33,7 @@ class Calendar{
     void printYear(); //Print out the current year
     void printMonth(int month); //Print out a specific month
     void printWeek(int month, int day);//Prints a weekly basis of the important items
+    void printDay(int month, int day);//Prints a daily basis of the important items
 
     //Fix the heap when we add something in
     void repairUpward(int);

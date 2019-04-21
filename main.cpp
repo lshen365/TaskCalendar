@@ -21,9 +21,63 @@ bool validDay(string s){ //Valid day checker
     return true;
   return false;
 }
-void viewCalendar(Calendar calendar){ //Option to view calendar
+
+void viewDay(Calendar &calendar, int month, int day){
+  string choice;
+  cout<<"Would you like to view (1) Tomorrow (2) Yesterday or (3) Exit\n";
+  getline(cin, choice);
+  if(choice=="1"||choice=="2"||choice=="3"){
+    if(choice=="1"){ //Tomorrow
+      if(day+1>calendar.getDays().numberOfDays(month,calendar.getYears().getCurrentYear())){ //New Month
+        if(month==12){ //New Year
+          calendar.printDay(1,1);
+          viewDay(calendar, 1, 1);
+          calendar.getDays().setCurrentDay(1);
+          calendar.getMonth().setCurrentMonth(1);
+        }else{
+          // calendar.days.setCurrentDay(calendar.days.getCurrentDay()+1);
+          calendar.printDay(month+1,1);
+          viewDay(calendar, month+1,1);
+          calendar.getDays().setCurrentDay(1);
+          calendar.getMonth().setCurrentMonth(month+1);
+        }
+      }else{
+        calendar.printDay(month,day+1);
+        viewDay(calendar, month, day+1);
+        calendar.getDays().setCurrentDay(day+1);
+        calendar.getMonth().setCurrentMonth(month);
+      }
+    }else if(choice=="2"){//Yesterday
+      if(day-1<1){
+        if(month==1){//New Year
+          calendar.printDay(1,1);
+          viewDay(calendar, 1, 1);
+          calendar.getDays().setCurrentDay(1);
+          calendar.getMonth().setCurrentMonth(1);
+        }else{
+          int dayTemp=calendar.getDays().numberOfDays(month-1,calendar.getYears().getCurrentYear());
+          calendar.printDay(month-1,dayTemp);
+          viewDay(calendar, month-1,dayTemp);
+          calendar.getDays().setCurrentDay(dayTemp);
+          calendar.getMonth().setCurrentMonth(month-1);
+        }
+      }else{
+        calendar.printDay(month,day-1);
+        viewDay(calendar, month, day-1);
+        calendar.getDays().setCurrentDay(day-1);
+        calendar.getMonth().setCurrentMonth(month);
+      }
+    }else{
+      cout<<"Back to main menu...\n\n";
+    }
+  }else{
+    cout<<"Not a valid input, try again\n";
+    viewDay(calendar, month, day);
+  }
+}
+void viewCalendar(Calendar &calendar){ //Option to view calendar
   string month, day, choice;
-  cout<<"Would you like to view a (1) Weekly Calendar (2) Monthly Calendar or (3) Yearly Calendar?\n";
+  cout<<"Would you like to view a (1) Daily Calendar (2) Monthly Calendar or (3) Yearly Calendar?\n";
   getline(cin, choice);
   if(choice == "1" || choice == "2" || choice =="3"){
     if(choice == "1"){
@@ -43,7 +97,8 @@ void viewCalendar(Calendar calendar){ //Option to view calendar
         cout<<"Sorry, day is not valid for the month\n\n";
         viewCalendar(calendar);
       }
-      calendar.printWeek(stoi(month),stoi(day));
+      calendar.printDay(stoi(month),stoi(day));
+      viewDay(calendar, stoi(month), stoi(day));
     }else if(choice == "2"){
       cout<<"What month would you like to view? (1 for Jan, 2 for Feb, etc...)\n";
       getline(cin, choice);
@@ -127,6 +182,7 @@ void removeEvent(){
 
   while(getline(testFile,line)){
     if(!line.empty()){
+      cout<<"Run"<<endl;
       stringstream words(line);
       string holdWord;
       string holdMonth;

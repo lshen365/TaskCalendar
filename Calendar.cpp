@@ -279,8 +279,9 @@ void Calendar::printWeek(int month, int day){
   printf("%02d/", day);
   cout<<years.getCurrentYear()<<endl;
   printf("%45s", "The date you entered is a ");
-  cout<<dayName(this->days.dayNumber(day, month, years.getCurrentYear()))<<endl;
-  printf("      Sun        Mon       Tue       Wed       Thu       Fri       Sat\n");
+  int dayNum=this->days.dayNumber(day, month, years.getCurrentYear());
+  cout<<dayName(dayNum)<<endl;
+  printf("        Sun          Mon         Tue         Wed         Thu         Fri         Sat\n");
   // for( int i = day; i<day+7;i++)
   //   cout<< month / i
   // for(int k=0;k<7;k++){
@@ -288,6 +289,7 @@ void Calendar::printWeek(int month, int day){
   // }
   //pQueue temp = peek();
   //for(int i=0;i<temp.timeDuration;i++)
+
   for(int i=0;i<currentQueueSize;i++){
     //if the current date is before the due date
     if(compareDate(years.getCurrentYear(),years.getCurrentYear(),month,priorityQueue[i].dueMonth,day,priorityQueue[i].dueDay))

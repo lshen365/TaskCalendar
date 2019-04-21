@@ -254,18 +254,51 @@ bool compareDate(int year1, int year2, int month1, int month2, int day1, int day
         return true;
     return false;
 }
+string dayName(int i){
+  if(i==0)
+    return "Sunday";
+  if(i==1)
+    return "Monday";
+  if(i==2)
+    return "Tuesday";
+  if(i==3)
+    return "Wednesday";
+  if(i==4)
+    return "Thursday";
+  if(i==5)
+    return "Friday";
+  if(i==6)
+    return "Saturday";
+}
 void Calendar::printWeek(int month, int day){
   int current = this->days.dayNumber (1, 1, years.getCurrentYear());
   int days = this->days.numberOfDays (month, years.getCurrentYear());
   // printf("\n  ------------%s-------------\n", months.getMonthName(i).c_str());
-  cout<<"            Week of "<<month<<"/"<<day<<"/"<<years.getCurrentYear()<<endl;
-  printf("    Sun     Mon    Tue    Wed    Thu    Fri    Sat\n");
-
+  printf("%35s", "Week of ");
+  printf("%02d/", month);
+  printf("%02d/", day);
+  cout<<years.getCurrentYear()<<endl;
+  printf("%45s", "The date you entered is a ");
+  cout<<dayName(this->days.dayNumber(day, month, years.getCurrentYear()))<<endl;
+  printf("      Sun        Mon       Tue       Wed       Thu       Fri       Sat\n");
+  // for( int i = day; i<day+7;i++)
+  //   cout<< month / i
+  // for(int k=0;k<7;k++){
+  //
+  // }
+  //pQueue temp = peek();
+  //for(int i=0;i<temp.timeDuration;i++)
   for(int i=0;i<currentQueueSize;i++){
+    //if the current date is before the due date
     if(compareDate(years.getCurrentYear(),years.getCurrentYear(),month,priorityQueue[i].dueMonth,day,priorityQueue[i].dueDay))
     {
-      string event=priorityQueue[i].eventName;
-      printf("%.7s\n", event.c_str()); //First 7 characters of the event string
+      //As long as the final priority is positive
+      if(priorityQueue[i].finalPriority>0){
+        string event=priorityQueue[i].eventName;
+        printf("%-7.7s ", event.c_str()); //First 7 characters of the event string
+        printf("%.1f hrs\n",priorityQueue[i].timeDuration/daysTillDueDate(month, day));
+        // printf("P: %.1f\n",priorityQueue[i].finalPriority);
+      }
     }
   }
 }
@@ -285,4 +318,4 @@ bool Calendar::isEmpty(){
   return false;
 }
 
-void distributeHours(pQueue 
+// void distributeHours(pQueue

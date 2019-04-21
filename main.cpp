@@ -1,5 +1,5 @@
 #include <iostream>
-#include<string>
+#include <string>
 #include "Calendar.hpp"
 #include <fstream>
 using namespace std;
@@ -103,7 +103,7 @@ void addEvent(Calendar &calendar){
     cout<<"Please enter a valid number"<<endl;
     getline(cin,priority);
   }
-  
+
 //  calendar.enqueue(event, stoi(dueMonth), stoi(dueDay), stoi(time), stoi(priority));
 //  cout<<"Your task "<<event<<" has been successfully enqueued!\n\n";
   float finalPriorityValue = calendar.priorityCalculator(stoi(dueMonth),stoi(dueDay),stof(time),stoi(priority));
@@ -136,9 +136,6 @@ int main(int argc, char const *argv[]) {
 
   Calendar calendar(50,stoi(holdMonth),stoi(holdDay));
   string menu;
-
-
-
   while(menu!="4"){
     displayMenu();
     calendar.enqueue();

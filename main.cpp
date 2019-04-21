@@ -2,6 +2,7 @@
 #include <string>
 #include "Calendar.hpp"
 #include <fstream>
+#include <sstream>
 using namespace std;
 
 void displayMenu(){
@@ -113,6 +114,59 @@ void addEvent(Calendar &calendar){
   outfile << event << "," << dueMonth << "," << dueDay << "," << time << "," <<priority << "," <<to_string(finalPriorityValue)<<endl;
   outfile.close();
 }
+
+void removeEvent(){
+  cout<<"Which event would you like to remove? Please select a number \n"<<endl;
+  ifstream testFile;
+  testFile.open("test.txt",ios_base::app);
+  ofstream tempFile("temp.txt");
+  string storeString; //Holds the event they want to remove
+  string choice; //Holds the string they should remove
+  int total = 0; //Total number of strings there are
+  string line;
+
+  while(getline(testFile,line)){
+    if(!line.empty()){
+      stringstream words(line);
+      string holdWord;
+      string holdMonth;
+      string holdDay;
+      getline(words,holdWord,',');
+      getline(words,holdMonth,',');
+      getline(words,holdDay,',');
+      cout<<"("<<total<<") "<<holdWord<<"Due Date: "<<holdMonth<<"/"<<holdDay<<endl;
+      total++;
+    }
+
+  }
+  getline(cin,choice);
+  while(stoi(choice)<1||stoi(choice)>total-1){
+    cout<<"Please enter a valid response\n"<<endl;
+    getline(cin,choice);
+  }
+  testFile.clear();
+  testFile.seekg(0,ios::beg);
+
+//  tempFile.open("temp.txt", ios_base::app);
+  for(int i=0;i<total;i++){
+    if(i!=stoi(choice)){
+      string temp;
+      getline(testFile,temp);
+      tempFile<<temp<<endl;
+    }else{
+      string temp;
+      getline(testFile,temp);
+    }
+  }
+  testFile.close();
+  tempFile.close();
+  remove("test.txt");
+  rename("temp.txt","test.txt");
+
+  cout<<endl;
+
+}
+
 int main(int argc, char const *argv[]) {
   //Prompts first 2 questions asking for day / month
   cout<<endl;
@@ -145,11 +199,7 @@ int main(int argc, char const *argv[]) {
     }else if(menu=="2"){//Add Event
       addEvent(calendar);
     }else if(menu=="3"){//Remove Event
-      while(!calendar.isEmpty()){
-        pQueue n = calendar.peek();
-        cout<<n.finalPriority<<endl;
-        calendar.dequeue();
-      }
+      removeEvent();
     }else if(menu=="4"){//Exit
       cout<<"Thank you for using our scheduler. Goodbye!\n";
     }else{

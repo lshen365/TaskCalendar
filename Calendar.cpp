@@ -65,18 +65,41 @@ float Calendar::priorityCalculator(int dueMonth, int dueDay, float timeDuration,
   return total;
 
 }
+int left(int i){
+  return (2*i + 1);
+}
+int right(int i){
+  return 2*i+2;
+}
+int parent(int i){
+  return (i-1)/2;
+}
 
 void swap(pQueue *a, pQueue *b){
   pQueue temp = *a;
   *a = *b;
   *b = temp;
 }
+
+void Calendar::repairUpward(int index){
+  int p = parent(index);
+  int l = left(index);
+  int r = right(index);
+  int max = index;
+
+  if(priorityQueue[p].finalPriority<priorityQueue[index].finalPriority){
+    max = p;
+  }
+
+  if(max != index){
+    swap(&priorityQueue[max],&priorityQueue[index]);
+    repairUpward(index);
+  }
+}
 /*
 Adds the events that are important into the array
 */
 void Calendar::enqueue(){
-
-
 
   ifstream myFile;
   myFile.open("test.txt");
@@ -98,17 +121,51 @@ void Calendar::enqueue(){
       getline(words,holdWord,',');
       priorityQueue[currentQueueSize].finalPriority=stof(holdWord);
       currentQueueSize++;
+
+      //Organizes it in the array
       int index = currentQueueSize-1;
-      // while(index!=0&&priorityQueue[index-1/2].finalPriority<= priorityQueue[index].finalPriority){
-      //   swap(&priorityQueue[(index-1/2)],&priorityQueue[index]);
-      // }
+      int p = parent(index);
+      while(currentQueueSize!=0&&priorityQueue[p].finalPriority<priorityQueue[index].finalPriority){
+        swap(&priorityQueue[index],&priorityQueue[p]);
+        index = parent(index);
+        repairUpward(index);
+      }
     }
   }
+}
 
+void Calendar::repairDownward(int index){
+  int l = left(index);
+  int r = right(index);
+  int loc = index;
+  if(l<currentQueueSize&&priorityQueue[l].finalPriority>priorityQueue[loc].finalPriority){
+    loc = l;
+  }else if(r<currentQueueSize&&priorityQueue[r].finalPriority>priorityQueue[loc].finalPriority){
+    loc = r;
+  }
 
-  // cout<<priorityQueue[index].finalPriority;
+  if(loc!=index){
+    swap(&priorityQueue[loc],&priorityQueue[index]);
+    repairDownward(index);
+  }
+}
 
+//Taking out the first element and reorganizing it
+void Calendar::dequeue(){
+  if(currentQueueSize<=0){
+    cout<<"Heap empty"<<endl;
+    return;
+  }
+  if(currentQueueSize==1){
+    priorityQueue[0]=priorityQueue[1];
+    currentQueueSize--;
+    return;
+  }
 
+  pQueue max = priorityQueue[0];
+  priorityQueue[0]=priorityQueue[currentQueueSize-1];
+  currentQueueSize--;
+  repairDownward(0);
 }
 
 void Calendar::printMonth(int month){
@@ -221,3 +278,11 @@ Day Calendar::getDays(){
 Year Calendar::getYears(){
   return years;
 }
+
+bool Calendar::isEmpty(){
+  if(currentQueueSize==0)
+    return true;
+  return false;
+}
+
+void distributeHours(pQueue 

@@ -3,8 +3,14 @@
 using namespace std;
 
 int main(int argc, char const *argv[]) {
-  //Calendar run(50,4,18);
-  //run.enqueue();
+  Calendar run(50,4,18);
+  run.enqueue();
+  while(!run.isEmpty()){
+    pQueue n = run.peek();
+    cout<<n.finalPriority<<endl;
+    run.dequeue();
+  }
+//  cout<<run.peek().eventName;
   // run.printYear();
   // run.printMonth(11);
   //run.printWeek(4,18);

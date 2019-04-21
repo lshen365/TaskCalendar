@@ -5,7 +5,6 @@
 using namespace std;
 
 void displayMenu(){
-  cout<<"Welcome to Leon and Justin's Task Scheduling App"<<endl;
   cout<<"(1) View Calendar"<<endl;
   cout<<"(2) Add Event"<<endl;
   cout<<"(3) Remove Event"<<endl;
@@ -62,40 +61,98 @@ void viewCalendar(Calendar calendar){ //Option to view calendar
   }
 }
 
+bool isValidDay(int month, int num){
+  Day temp;
+  int numDays = temp.numberOfDays(month,2019);
+  if(num>0&&num<=numDays)
+    return true;
+  return false;
+}
+
+bool isValidMonth(int num){
+  if(num>=1&&num<=12)
+    return true;
+  return false;
+}
 void addEvent(Calendar &calendar){
   string event, dueMonth, dueDay, time, priority;
 
   cout<<"What event will be added?\n";
   getline(cin, event);
+
   cout<<"What month will this be due?\n";
   getline(cin, dueMonth);
+  while(!isValidMonth(stoi(dueMonth))){
+    cout<<"Please enter a valid month \n"<<endl;
+    getline(cin,dueMonth);
+  }
+
   cout<<"What day will this be due?\n";
   getline(cin, dueDay);
+  while(!isValidDay(stoi(dueMonth),stoi(dueDay))){
+    cout<<"Please enter a valid day \n"<<endl;
+    getline(cin,dueDay);
+  }
+
   cout<<"What is the estimated amount of hours this task will take?\n";
   getline(cin, time);
-  cout<<"What is your estimated priority for this event?\n";
+
+  cout<<"What is your estimated priority for this event (0-10)?\n";
   getline(cin, priority);
+  while(stoi(priority)<0||stoi(priority)>10){
+    cout<<"Please enter a valid number"<<endl;
+    getline(cin,priority);
+  }
+  
 //  calendar.enqueue(event, stoi(dueMonth), stoi(dueDay), stoi(time), stoi(priority));
 //  cout<<"Your task "<<event<<" has been successfully enqueued!\n\n";
   float finalPriorityValue = calendar.priorityCalculator(stoi(dueMonth),stoi(dueDay),stof(time),stoi(priority));
   //Add to textfile
   ofstream outfile;
   outfile.open("test.txt", ios_base::app); //Appends to the end of file
-  outfile << event << "," << dueMonth << "," << dueDay << "," << time << "," <<priority << "," <<finalPriorityValue<<endl;
+  outfile << event << "," << dueMonth << "," << dueDay << "," << time << "," <<priority << "," <<to_string(finalPriorityValue)<<endl;
   outfile.close();
 }
 int main(int argc, char const *argv[]) {
-  Calendar calendar(50,4,17);
+  //Prompts first 2 questions asking for day / month
+  cout<<endl;
+  cout<<"Welcome to Leon and Justin's Task Scheduling App \n"<<endl;
+  string holdMonth;
+  string holdDay;
+  cout<<"What month is today? \n"<<endl;
+  getline(cin,holdMonth);
+  while(!isValidMonth(stoi(holdMonth))){
+    cout<<"Please enter a valid month \n"<<endl;
+    getline(cin,holdMonth);
+  }
+  cout<<endl;
+  cout<<"What day is today? \n"<<endl;
+  getline(cin,holdDay);
+  cout<<endl;
+  while(!isValidDay(stoi(holdMonth),stoi(holdDay))){
+    cout<<"Please enter a valid day \n"<<endl;
+    getline(cin,holdDay);
+  }
+
+  Calendar calendar(50,stoi(holdMonth),stoi(holdDay));
   string menu;
+
+
+
   while(menu!="4"){
     displayMenu();
+    calendar.enqueue();
     getline(cin, menu);
     if(menu=="1"){//View Calendar
       viewCalendar(calendar);
     }else if(menu=="2"){//Add Event
       addEvent(calendar);
     }else if(menu=="3"){//Remove Event
-
+      while(!calendar.isEmpty()){
+        pQueue n = calendar.peek();
+        cout<<n.finalPriority<<endl;
+        calendar.dequeue();
+      }
     }else if(menu=="4"){//Exit
       cout<<"Thank you for using our scheduler. Goodbye!\n";
     }else{

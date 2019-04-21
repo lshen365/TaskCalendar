@@ -35,16 +35,17 @@ class Calendar{
     void printWeek(int month, int day);//Prints a weekly basis of the important items
 
     //Fix the heap when we add something in
-    void repairUpward();
+    void repairUpward(int);
 
     //Fix the heap when we dequeue something
-    void repairDownward();
+    void repairDownward(int);
 
     //Returns the first node in the queue
     pQueue peek();
 
     float priorityCalculator(int,int,float,int);
 
+    bool isEmpty();
     Day getDays();
     Year getYears();
   private:

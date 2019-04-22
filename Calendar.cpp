@@ -303,7 +303,7 @@ void Calendar::printDay(int month, int day){
   printf("%02d/", day);
   cout<<years.getCurrentYear()<<endl;
   int dayNum=this->days.dayNumber(day, month, years.getCurrentYear());
-  printf("%30s", "The current date is a ");
+  printf("%33s", "The current date is a ");
   cout<<dayName(dayNum)<<endl;
   for(int i=0;i<currentQueueSize;i++){
     //if the current date is before the due date
@@ -317,7 +317,8 @@ void Calendar::printDay(int month, int day){
           // printf("%.1f hrs ",priorityQueue[i].timeDuration/daysTillDueDate(month, day));
           printf("%.1f hrs ",priorityQueue[i].timeDuration/daysTillDueDate(priorityQueue[i].dueMonth, priorityQueue[i].dueDay));
           // printf("P: %.1f\n",priorityQueue[i].finalPriority);
-          cout<<daysTillDueDate(priorityQueue[i].dueMonth, priorityQueue[i].dueDay)<<" days till due!"<<endl;
+          printf("%3d day(s) till due!\n",daysTillDueDate(priorityQueue[i].dueMonth, priorityQueue[i].dueDay));
+          // cout<<daysTillDueDate(priorityQueue[i].dueMonth, priorityQueue[i].dueDay)<<" day(s) till due!"<<endl;
           // cout<<daysTillDueDate(month, day)<<" days till due!"<<endl;
         }
       }

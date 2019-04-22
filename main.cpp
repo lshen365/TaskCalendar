@@ -32,40 +32,27 @@ void viewDay(Calendar &calendar, int month, int day){
         if(month==12){ //New Year
           calendar.printDay(1,1);
           viewDay(calendar, 1, 1);
-          calendar.getDays().setCurrentDay(1);
-          calendar.getMonth().setCurrentMonth(1);
         }else{
-          // calendar.days.setCurrentDay(calendar.days.getCurrentDay()+1);
           calendar.printDay(month+1,1);
           viewDay(calendar, month+1,1);
-          calendar.getDays().setCurrentDay(1);
-          calendar.getMonth().setCurrentMonth(month+1);
         }
       }else{
         calendar.printDay(month,day+1);
         viewDay(calendar, month, day+1);
-        calendar.getDays().setCurrentDay(day+1);
-        calendar.getMonth().setCurrentMonth(month);
-      }
+      } 
     }else if(choice=="2"){//Yesterday
       if(day-1<1){
         if(month==1){//New Year
           calendar.printDay(1,1);
           viewDay(calendar, 1, 1);
-          calendar.getDays().setCurrentDay(1);
-          calendar.getMonth().setCurrentMonth(1);
         }else{
           int dayTemp=calendar.getDays().numberOfDays(month-1,calendar.getYears().getCurrentYear());
           calendar.printDay(month-1,dayTemp);
           viewDay(calendar, month-1,dayTemp);
-          calendar.getDays().setCurrentDay(dayTemp);
-          calendar.getMonth().setCurrentMonth(month-1);
         }
       }else{
         calendar.printDay(month,day-1);
         viewDay(calendar, month, day-1);
-        calendar.getDays().setCurrentDay(day-1);
-        calendar.getMonth().setCurrentMonth(month);
       }
     }else{
       cout<<"Back to main menu...\n\n";

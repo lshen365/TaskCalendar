@@ -182,7 +182,7 @@ void removeEvent(){
 
   }
   getline(cin,choice);
-  while(stoi(choice)<1||stoi(choice)>total-1){
+  while(stoi(choice)<0||stoi(choice)>total-1){
     cout<<"Please enter a valid response\n"<<endl;
     getline(cin,choice);
   }

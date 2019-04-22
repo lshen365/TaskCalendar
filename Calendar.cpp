@@ -68,8 +68,6 @@ int Calendar::dayTracker(int dueMonth, int dueDay, int month, int day){
         daysTillDue+=days.numberOfDays(month+i,years.getCurrentYear());
       }
       daysTillDue+=dueDay;
-
-      // cout<<daysTillDue<<"Days till due"<<endl;
     }
     //Checks for if current Month is April and due date is in January
     else if(month>dueMonth){

@@ -39,7 +39,7 @@ void viewDay(Calendar &calendar, int month, int day){
       }else{
         calendar.printDay(month,day+1);
         viewDay(calendar, month, day+1);
-      } 
+      }
     }else if(choice=="2"){//Yesterday
       if(day-1<1){
         if(month==1){//New Year
@@ -169,7 +169,6 @@ void removeEvent(){
 
   while(getline(testFile,line)){
     if(!line.empty()){
-      cout<<"Run"<<endl;
       stringstream words(line);
       string holdWord;
       string holdMonth;
@@ -177,7 +176,7 @@ void removeEvent(){
       getline(words,holdWord,',');
       getline(words,holdMonth,',');
       getline(words,holdDay,',');
-      cout<<"("<<total<<") "<<holdWord<<"Due Date: "<<holdMonth<<"/"<<holdDay<<endl;
+      cout<<"("<<total<<") "<<holdWord<<" Due Date: "<<holdMonth<<"/"<<holdDay<<endl;
       total++;
     }
 
@@ -235,6 +234,8 @@ int main(int argc, char const *argv[]) {
   string menu;
   while(menu!="4"){
     displayMenu();
+    while(!calendar.isEmpty())
+      calendar.dequeue();
     calendar.enqueue();
     getline(cin, menu);
     if(menu=="1"){//View Calendar

@@ -4,7 +4,7 @@ using namespace std;
 
 int main(int argc, char const *argv[]) {
   Calendar run(50,4,21);
-  cout<<"Days till due "<<run.daysTillDueDate(4,25);
+  cout<<"Days till due "<<run.dayTracker(5,1,1,1);
   //run.enqueue();
   // while(!run.isEmpty()){
   //   pQueue n = run.peek();

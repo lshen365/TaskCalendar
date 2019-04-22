@@ -49,6 +49,7 @@ class Calendar{
     bool isEmpty();
     Day getDays();
     Year getYears();
+    int dayTracker(int,int,int,int);
   private:
     Year years;
     Month months;

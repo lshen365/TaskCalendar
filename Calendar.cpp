@@ -54,6 +54,41 @@ int Calendar::daysTillDueDate(int dueMonth, int dueDay){
 }
 
 /*
+Counts how many days there are until the due Date
+*/
+int Calendar::dayTracker(int dueMonth, int dueDay, int month, int day){
+  int daysTillDue = 0;
+  if(month!=dueMonth){
+
+    //Checks case if it is due in like July but current month is April
+    if(month<dueMonth){
+
+      daysTillDue+=days.numberOfDays(month,years.getCurrentYear())-day;
+      for(int i=1;i<dueMonth-month;i++){ //Adds up all the inbetween months
+        daysTillDue+=days.numberOfDays(month+i,years.getCurrentYear());
+      }
+      daysTillDue+=dueDay;
+
+      // cout<<daysTillDue<<"Days till due"<<endl;
+    }
+    //Checks for if current Month is April and due date is in January
+    else if(month>dueMonth){
+      daysTillDue+=days.numberOfDays(month,years.getCurrentYear())-day;
+      for(int i=1;i<12-months.getCurrentMonth();i++){
+        daysTillDue+=days.numberOfDays(month+i,years.getCurrentYear());
+      }
+      for(int i=1;i<=dueMonth;i++){
+        daysTillDue+=days.numberOfDays(i,years.getCurrentYear()+1);
+      }
+      daysTillDue+=dueDay;
+    }
+  }else{
+    daysTillDue+=dueDay-day;
+  }
+
+  return daysTillDue;
+}
+/*
 This will calculate all the final priority value based off all the information given
 and will return the float priority value. This will be calculated by adding up the
 days left until the due date + userPriority + time timeDuration
@@ -179,7 +214,7 @@ void Calendar::printMonth(int month){
 
    // Print the current month name
    printf("\n  ------------%s-------------\n",
-          months.getMonthName(month).c_str());
+   months.getMonthName(month).c_str());
 
    // Print the columns
    printf("  Sun  Mon  Tue  Wed  Thu  Fri  Sat\n");
@@ -270,34 +305,8 @@ string dayName(int i){
   if(i==6)
     return "Saturday";
 }
-// void Calendar::printWeek(int month, int day){
-//   int current = this->days.dayNumber (1, 1, years.getCurrentYear());
-//   int days = this->days.numberOfDays (month, years.getCurrentYear());
-//   // printf("\n  ------------%s-------------\n", months.getMonthName(i).c_str());
-//   printf("%35s", "Week of ");
-//   printf("%02d/", month);
-//   printf("%02d/", day);
-//   cout<<years.getCurrentYear()<<endl;
-//   printf("%45s", "The date you entered is a ");
-//   cout<<dayName(days)<<endl;
-//   printf("        Sun          Mon         Tue         Wed         Thu         Fri         Sat\n");
-//   for(int i=0;i<currentQueueSize;i++){
-//     //if the current date is before the due date
-//     // if(compareDate(years.getCurrentYear(),years.getCurrentYear(),month,priorityQueue[i].dueMonth,day,priorityQueue[i].dueDay)){
-//     // if(compareDate(years.getCurrentYear(),years.getCurrentYear(),month,priorityQueue[i].dueMonth,day,priorityQueue[i].dueDay)){
-//       //As long as the final priority is positive
-//       if(priorityQueue[i].finalPriority>0){
-//         string event=priorityQueue[i].eventName;
-//         printf("%-7.7s ", event.c_str()); //First 7 characters of the event string
-//         printf("%.1f hrs",priorityQueue[i].timeDuration/daysTillDueDate(month, day));
-//         // printf("P: %.1f\n",priorityQueue[i].finalPriority);
-//       }
-//     }
-//   }
-// }
 void Calendar::printDay(int month, int day){
-  months.setCurrentMonth(month);
-  days.setCurrentDay(day);
+  bool freeDay=true;
   cout<<"                 ";
   printf("%02d/", month);
   printf("%02d/", day);
@@ -312,19 +321,22 @@ void Calendar::printDay(int month, int day){
       if(priorityQueue[i].finalPriority>0){
         //Spending more than half an hour on the task
         if(priorityQueue[i].timeDuration/daysTillDueDate(priorityQueue[i].dueMonth, priorityQueue[i].dueDay)>=0.5){
-          string event=priorityQueue[i].eventName;
-          printf("%-20.20s ", event.c_str()); //First 20 characters of the event string
-          // printf("%.1f hrs ",priorityQueue[i].timeDuration/daysTillDueDate(month, day));
-          printf("%.1f hrs ",priorityQueue[i].timeDuration/daysTillDueDate(priorityQueue[i].dueMonth, priorityQueue[i].dueDay));
-          // printf("P: %.1f\n",priorityQueue[i].finalPriority);
-          printf("%3d day(s) till due!\n",daysTillDueDate(priorityQueue[i].dueMonth, priorityQueue[i].dueDay));
-          // cout<<daysTillDueDate(priorityQueue[i].dueMonth, priorityQueue[i].dueDay)<<" day(s) till due!"<<endl;
-          // cout<<daysTillDueDate(month, day)<<" days till due!"<<endl;
+          //The date you are viewing is before the current date
+          if(!compareDate(years.getCurrentYear(),years.getCurrentYear(),month,months.getCurrentMonth(),day,days.getCurrentDay())){
+            freeDay=false;
+            string event=priorityQueue[i].eventName;
+            printf("%-20.20s ", event.c_str()); //First 20 characters of the event string
+            printf("%.1f hrs ",priorityQueue[i].timeDuration/dayTracker(priorityQueue[i].dueMonth, priorityQueue[i].dueDay,months.getCurrentMonth(),days.getCurrentDay()));
+            printf("%3d day(s) till due!\n",dayTracker(priorityQueue[i].dueMonth, priorityQueue[i].dueDay,month,day));
+          }
         }
       }
     }
   }
+  if(freeDay)
+    cout<<"     Nothing to do as of today! You're free!\n\n";
 }
+
 pQueue Calendar::peek(){
   return priorityQueue[0];
 }
@@ -343,5 +355,3 @@ bool Calendar::isEmpty(){
     return true;
   return false;
 }
-
-// void distributeHours(pQueue
